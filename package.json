@@ -1,0 +1,22 @@
+{
+  "name": "exploring-electron",
+  "version": "1.0.0",
+  "description": "shopping list desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrizos/exploring-electron.git"
+  },
+  "author": "Alex Drizos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adrizos/exploring-electron/issues"
+  },
+  "homepage": "https://github.com/adrizos/exploring-electron#readme",
+  "dependencies": {
+    "electron": "^2.0.8"
+  }
+}
