@@ -2,7 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow, Menu} = electron;
+const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 let mainWindow;
 let addWindow;
@@ -50,10 +50,14 @@ function createAddWindow(){
   });
 }
 
-
+// catch item:add
+ipcMain.on('item:add', function(e, item){
+  // console.log(item); //check that the item gets over here
+  mainWindow.webContents.send('item:add', item);
+  addWindow.close();
+});
 // Create menu template
 const mainMenuTemplate = [
-  {},
   {
     label: 'File',
     submenu: [
@@ -78,3 +82,29 @@ const mainMenuTemplate = [
     ]
   }
 ];
+
+// if mac, add empty object to menu to show "FILE"
+if (process.platform == 'darwin'){
+  mainMenuTemplate.unshift({});
+}
+
+// add developer tools item if not in production
+if(process.env.node_env != 'production'){
+  mainMenuTemplate.push({
+    label: 'Developer Tools',
+    submenu: [
+      {
+        label: 'Toggle DevTools',
+        //adding focusedWindow so it appears on small windows too
+        accelerator: process.platform === 'darwin' ? 'command+I' :
+        'ctrl+I',
+        click(item, focusedWindow){
+          focusedWindow.toggleDevTools();
+        }
+      },
+      {
+        role: 'reload'
+      }
+    ]
+  });
+}
